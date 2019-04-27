@@ -1,7 +1,7 @@
 import os
 
 class Config:
-    QUOTES_BASE_URL = 'http://quotes.stormconsultancy.co.uk/random.json' 
+    QUOTES_API_BASE_URL = 'http://quotes.stormconsultancy.co.uk/random.json' 
     SECRET_KEY =os.environ.get('hjh635dhru584/hf55')
 
 class ProdConfig(Config):

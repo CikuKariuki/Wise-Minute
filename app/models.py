@@ -5,6 +5,17 @@ class User:
     def __init__(self,id):
         self.id =id
 
+class Writer:
+    '''
+    class to define all writer objects
+    '''
+    def __init__(self,id,username,email,bio,articles):
+        self.id = id
+        self.username = username
+        self.email = email
+        self.bio = bio 
+        self.articles = articles
+
 class Review:
     all_reviews = []
 
