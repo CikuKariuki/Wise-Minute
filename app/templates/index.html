@@ -1,17 +1,6 @@
-<!DOCTYPE html>
-<html>
-    <head>
-        {% if title%}
-        <title>{{title}}</title>
-       {% else %}
-        <title>Home of stories</title>
-    {% endif%}
-    </head>
-    <body>
-
-        <h1>Quote of the day:</h1>
-            <p>{{quote}}</p> 
-            <p>{{quote_author}}</p>
-
-    </body>
-</html>
+{% extends 'base.html' %}
+{% block content %}
+    <h1>Quote of the day:</h1>
+    <p>{{quote}}</p> 
+    <p>{{quote_author}}</p>
+{% endblock %}
