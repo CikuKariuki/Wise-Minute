@@ -3,13 +3,16 @@ from . import main
 from ..requests import get_quote
 # from .forms import ReviewForm
 from .. models import Review
+from flask import jsonify
 
 @main.route('/')
 def index():
     '''
     view root page function that returns the index page and its data
     '''
-    first_quote = get_quote('quote')
+    sambu = get_quote()
+    quote = sambu["quote"]
+    quote_author = sambu["author"]
     title = "Home of stories"
-    return render_template('index.html',title = title, quote = first_quote )
+    return render_template('index.html',title = title, quote = quote, quote_author = quote_author )
     
