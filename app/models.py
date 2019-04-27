@@ -1,3 +1,12 @@
+class Quote:
+    '''
+    quote class to define quote object
+    '''
+    def __init__(self,id,quote,author):
+        self.id = id
+        self.quote = quote
+        self.author = author
+
 class User:
     '''
     user class to define user objects

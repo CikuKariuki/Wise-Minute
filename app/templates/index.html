@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        {% if title%}
+        <title>{{title}}</title>
+       {% else %}
+        <title>Home of stories</title>
+    {% endif%}
+    </head>
+    <body>
+
+        <h1>Quote of the day:</h1>
+        <ul>
+            {% for quote in quote_results %}
+            <li>{{quote.quote}}</li>  
+            {% endfor %} 
+        </ul>
+    </body>
+</html>
