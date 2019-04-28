@@ -4,8 +4,9 @@ from ..requests import get_quote
 from .forms import ReviewForm,UpdateProfile
 from .. models import Review,Writer,User
 from flask import jsonify
-from flask_login import login_required,UserMixin
+from flask_login import login_required,UserMixin,current_user
 from .. import db,photos
+import markdown2
 
 @main.route('/')
 def index():
@@ -35,9 +36,15 @@ def new_review(id):
     if form.validate_on_submit():
         title = form.title.data
         review = form.review.data
-        new_review = Review(article.id,title,review)
+       # Updated review instance
+        new_review = Review(article_id=article.id,article_title=title,image_path=article.poster,article_review=review,user=current_user)
+
+        # save review method
         new_review.save_review()
-        return redirect(url_for('arti'))
+        return redirect(url_for('.article',id = article.id ))
+
+    title = f'{article.title} review'
+    return render_template('new_review.html',title = title, review_form=form, article=article)
 
 @main.route('/user/<uname>')
 def profile(uname):
@@ -77,3 +84,11 @@ def update_pic(uname):
         user.profile_pic_path = path
         db.session.commit()
     return redirect(url_for('main.profile',uname=uname))
+
+@main.route('/review/<int:id>')
+def single_review(id):
+    review=Review.query.get(id)
+    if review is None:
+        abort(404)
+    format_review = markdown2.markdown(review.movie_review,extras=["code-friendly", "fenced-code-blocks"])
+    return render_template('review.html',review = review,format_review=format_review)

@@ -6,3 +6,4 @@ export MAIL_PASSWORD=<Your Email Password>
 python3.6 manage.py server
 
 # check config.py to change username and password
+# check test_review and change example of review

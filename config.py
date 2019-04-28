@@ -15,15 +15,20 @@ class Config:
     SECRET_KEY =os.environ.get('hjh635dhru584/hf55')
     SQLALCHEMY_DATABASE_URI = 'postgresql+psycopg2://wanjiku:mySql003@localhost/blogger'
     UPLOADED_PHOTOS_DEST ='app/static/photos'
-
+    SIMPLEMDE_JS_IIFE = True
+    SIMPLEMDE_USE_CDN = True
 class ProdConfig(Config):
     pass
 
+class TestConfig(Config):
+    SQLALCHEMY_DATABASE_URI = 'postgresql+psycopg2://wanjiku:mySql003@localhost/blog_test'
+
 class DevConfig(Config):
-    
+    SQLALCHEMY_DATABASE_URI = 'postgresql+psycopg2://wanjiku:mySql003@localhost/blog_test'
     DEBUG = True
 
 config_options = {
     'development':DevConfig,
-    'production':ProdConfig
+    'production':ProdConfig,
+    'test': TestConfig
 }

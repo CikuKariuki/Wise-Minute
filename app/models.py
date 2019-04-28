@@ -1,6 +1,7 @@
 from flask_sqlalchemy import SQLAlchemy
 from werkzeug.security import generate_password_hash,check_password_hash
 from . import login_manager
+from datetime import datetime
 
 db = SQLAlchemy()
 @login_manager.user_loader
@@ -26,6 +27,7 @@ class User(UserMixin,db.Model):
     bio = db.Column(db.String(255))
     profile_pic_path = db.Column(db.String())
     pass_secure = db.Column(db.String(255))
+    reviews = db.relationship('Review',backref = 'user',lazy = "dynamic")
 
     @property
     def password(self):
@@ -63,17 +65,26 @@ class Occupation(db.Model):
         return f'Occupation{self.name}'
 
 
-class Review:
-    all_reviews = []
+class Review(db.Model):
+    __tablename__ = 'reviews'
 
-    def __init__(self,article_id,title,review):
-        self.article_id = article_id
-        self.title = title
-        self.review = review
+    id = db.Column(db.Integer,primary_key = True)
+    movie_id = db.Column(db.Integer)
+    movie_title = db.Column(db.String)
+    image_path = db.Column(db.String)
+    movie_review = db.Column(db.String)
+    posted = db.Column(db.DateTime,default=datetime.utcnow)
+    user_id = db.Column(db.Integer,db.ForeignKey("users.id"))
 
-    def save_review(self):
-        Review.all_reviews.append(self)
+   def save_review(self):
+        db.session.add(self)
+        db.session.commit()
 
+    @classmethod
+    def get_reviews(cls,id):
+        reviews = Review.query.filter_by(movie_id=id).all()
+        return reviews
+        
     @classmethod
     def clear_reviews(cls):
         Review.all_reviews.clear()
