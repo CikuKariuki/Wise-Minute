@@ -22,16 +22,16 @@ def writer(writer_id):
     view function that returns the writers details page and its data
     '''
     return render_template('writer.html', id = writer_id)   
-@main.route('/article_review/<int:id>', methods = ['GET','POST'])
-@login_required
-def article_review(id):
-    article = Article.query.get_or_404(id)
-    comment = Review.query.all()
-    form = ReviewForm()
+# @main.route('/article_review/<int:id>', methods = ['GET','POST'])
+# @login_required
+# def article_review(id):
+#     article = Article.query.get_or_404(id)
+#     comment = Review.query.all()
+#     form = ReviewForm()
     
-    if form.validate_on_submit():
-        title = form.title.data
-        review = form.review.data
-        new_review = Review(article.id,title,review)
-        new_review.save_review()
-        return redirect(url_for('arti'))
+#     if form.validate_on_submit():
+#         title = form.title.data
+#         review = form.review.data
+#         new_review = Review(article.id,title,review)
+#         new_review.save_review()
+#         return redirect(url_for('arti'))

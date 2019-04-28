@@ -1,4 +1,5 @@
-from . import db
+from flask_sqlalchemy import SQLAlchemy
+db = SQLAlchemy()
 
 class Quote:
     '''
@@ -14,7 +15,7 @@ class User:
     user class to define user objects
     '''
     __tablename__ = 'users'
-    id = db.Column(db.Integers,primary_key = True)
+    id = db.Column(db.Integer,primary_key = True)
     username = db.Column(db.String(255))
     occupation_id = db.Column(db.Integer,db.ForeignKey('occupation.id'))
 
@@ -36,7 +37,7 @@ class Occupation(db.Model):
     __tablename__='occupation'
     id = db.Column(db.Integer,primary_key=True)
     name = db.Column(db.String(255))
-    users = db.relationship('User',backref = 'role',lazy="dynamic")
+    users = db.relationship('User',backref = 'occupation',lazy="dynamic")
     
     def __repr__(self):
         return f'User{self.name}'
