@@ -1,5 +1,7 @@
 {% extends 'base.html' %}
 {% block content %}
+{{ super() }}
+<link rel="stylesheet" href="{{url_for('static',filename='css/index.css')}}">
     <h1>Quote of the day:</h1>
     <p>{{quote}}</p> 
     <p>{{quote_author}}</p>

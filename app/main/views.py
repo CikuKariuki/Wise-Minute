@@ -15,4 +15,10 @@ def index():
     quote_author = sambu["author"]
     title = "Home of stories"
     return render_template('index.html',title = title, quote = quote, quote_author = quote_author )
-    
+
+@main.route('/writer/<int:writer_id>')
+def writer(id):
+    '''
+    view function that returns the writers details page and its data
+    '''
+    return render_template('writer.html', id = writer_id)   

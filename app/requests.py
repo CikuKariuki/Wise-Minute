@@ -18,17 +18,6 @@ def get_quote():
     pos = requests.get(url)
     posts = pos.json()
     return posts
-    # with urllib.request.urlopen(get_quote_url) as url:
-    #     get_quote_data = url.read()
-    #     get_quote_response = json.loads(get_quote_data)
-
-    #     quote_results = None
-
-    #     if get_quote_response['quote']:
-    #         quote_results_list = get_quote_response['quote']
-    #         # quote_results = process_results(quote_results_list)
-            
-    # return quote_results
 
 def process_results(quote_list):
     '''
