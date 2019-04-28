@@ -1,3 +1,5 @@
+from . import db
+
 class Quote:
     '''
     quote class to define quote object
@@ -11,8 +13,13 @@ class User:
     '''
     user class to define user objects
     '''
-    def __init__(self,id):
-        self.id =id
+    __tablename__ = 'users'
+    id = db.Column(db.Integers,primary_key = True)
+    username = db.Column(db.String(255))
+    occupation_id = db.Column(db.Integer,db.ForeignKey('occupation.id'))
+
+    def __repr__(self):
+        return f'User{self.username}'
 
 class Writer:
     '''
@@ -24,6 +31,16 @@ class Writer:
         self.email = email
         self.bio = bio 
         self.articles = articles
+
+class Occupation(db.Model):
+    __tablename__='occupation'
+    id = db.Column(db.Integer,primary_key=True)
+    name = db.Column(db.String(255))
+    users = db.relationship('User',backref = 'role',lazy="dynamic")
+    
+    def __repr__(self):
+        return f'User{self.name}'
+
 
 class Review:
     all_reviews = []
