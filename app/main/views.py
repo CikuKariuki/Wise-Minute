@@ -17,7 +17,7 @@ def index():
     return render_template('index.html',title = title, quote = quote, quote_author = quote_author )
 
 @main.route('/writer/<int:writer_id>')
-def writer(id):
+def writer(writer_id):
     '''
     view function that returns the writers details page and its data
     '''
