@@ -1,7 +1,12 @@
 from flask_sqlalchemy import SQLAlchemy
 from werkzeug.security import generate_password_hash,check_password_hash
-db = SQLAlchemy()
+from . import login_manager
 
+db = SQLAlchemy()
+@login_manager.user_loader
+def load_user(user_id):
+    return User.query.get(int(user_id))
+    
 class Quote:
     '''
     quote class to define quote object
@@ -11,13 +16,12 @@ class Quote:
         self.quote = quote
         self.author = author
 
-class User:
-    '''
-    user class to define user objects
-    '''
+class User(UserMixin,db.Model):
     __tablename__ = 'users'
+
     id = db.Column(db.Integer,primary_key = True)
-    username = db.Column(db.String(255))
+    username = db.Column(db.String(255),index = True)
+    email = db.Column(db.String(255),unique = True, index = True)
     occupation_id = db.Column(db.Integer,db.ForeignKey('occupation.id'))
     pass_secure = db.Column(db.String(255))
 
@@ -32,7 +36,7 @@ class User:
     def verify_password(self,password):
         return check_password_hash(self.pass_secure,password)
 
-        
+
     def __repr__(self):
         return f'User{self.username}'
 

@@ -1,4 +1,4 @@
-# NEWS CENTRAL
+# BLOG SPOT
 
 ## Author
 
@@ -15,7 +15,7 @@ Python 3.6, Flask
 
 | BEHAVIOUR    | INPUT   |  OUTPUT |
 | :------------- | :------------- | :--------------- |
-| Load website | website url | News highlights from different sources |
+| Load website | website url | blog posts from different users |
 
 
 
