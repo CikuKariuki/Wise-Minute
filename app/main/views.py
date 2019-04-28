@@ -16,7 +16,7 @@ def index():
     title = "Home of stories"
     return render_template('index.html',title = title, quote = quote, quote_author = quote_author )
 
-@main.route('/writer/<int:writer_id>')
+@main.route('/writer/<int:pwriter_id>')
 def writer(writer_id):
     '''
     view function that returns the writers details page and its data

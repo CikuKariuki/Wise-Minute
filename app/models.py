@@ -1,4 +1,5 @@
 from flask_sqlalchemy import SQLAlchemy
+from werkzeug.security import generate_password_hash,check_password_hash
 db = SQLAlchemy()
 
 class Quote:
@@ -18,7 +19,20 @@ class User:
     id = db.Column(db.Integer,primary_key = True)
     username = db.Column(db.String(255))
     occupation_id = db.Column(db.Integer,db.ForeignKey('occupation.id'))
+    pass_secure = db.Column(db.String(255))
 
+    @property
+    def password(self):
+        raise AttributeError("You can't read the password attribute")
+
+    @password.setter
+    def password(self,password):
+        self.pass_secure = generate_password_hash(password)
+
+    def verify_password(self,password):
+        return check_password_hash(self.pass_secure,password)
+
+        
     def __repr__(self):
         return f'User{self.username}'
 
@@ -37,10 +51,10 @@ class Occupation(db.Model):
     __tablename__='occupation'
     id = db.Column(db.Integer,primary_key=True)
     name = db.Column(db.String(255))
-    users = db.relationship('User',backref = 'occupation',lazy="dynamic")
+    user = db.relationship('User',backref = 'occupation',lazy="dynamic")
     
     def __repr__(self):
-        return f'User{self.name}'
+        return f'Occupation{self.name}'
 
 
 class Review:
