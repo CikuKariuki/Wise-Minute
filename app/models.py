@@ -28,8 +28,8 @@ class Writer:
 class Review:
     all_reviews = []
 
-    def __init__(self,user_id,title,review):
-        self.user_id = user_id
+    def __init__(self,article_id,title,review):
+        self.article_id = article_id
         self.title = title
         self.review = review
 
@@ -47,7 +47,7 @@ class Review:
 
 
         for review in cls.all_reviews:
-            if review.user_id == id:
+            if review.article_id == id:
                 response.append(review)
 
         return response
