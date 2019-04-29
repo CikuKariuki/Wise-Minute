@@ -2,8 +2,10 @@ from flask_sqlalchemy import SQLAlchemy
 from werkzeug.security import generate_password_hash,check_password_hash
 from . import login_manager
 from datetime import datetime
+from flask_login import LoginManager,UserMixin
+from app import db
 
-db = SQLAlchemy()
+
 @login_manager.user_loader
 def load_user(user_id):
     return User.query.get(int(user_id))
@@ -26,6 +28,7 @@ class User(UserMixin,db.Model):
     occupation_id = db.Column(db.Integer,db.ForeignKey('occupation.id'))
     bio = db.Column(db.String(255))
     profile_pic_path = db.Column(db.String())
+    articles = db.Column(db.String(1000))
     pass_secure = db.Column(db.String(255))
     reviews = db.relationship('Review',backref = 'user',lazy = "dynamic")
 
@@ -43,17 +46,6 @@ class User(UserMixin,db.Model):
 
     def __repr__(self):
         return f'User{self.username}'
-
-class Writer:
-    '''
-    class to define all writer objects
-    '''
-    def __init__(self,id,username,email,bio,articles):
-        self.id = id
-        self.username = username
-        self.email = email
-        self.bio = bio 
-        self.articles = articles
 
 class Occupation(db.Model):
     __tablename__='occupation'
@@ -76,7 +68,7 @@ class Review(db.Model):
     posted = db.Column(db.DateTime,default=datetime.utcnow)
     user_id = db.Column(db.Integer,db.ForeignKey("users.id"))
 
-   def save_review(self):
+    def save_review(self):
         db.session.add(self)
         db.session.commit()
 

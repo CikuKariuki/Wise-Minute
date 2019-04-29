@@ -2,11 +2,11 @@ from flask import render_template,request,redirect,url_for,abort
 from . import main
 from ..requests import get_quote
 from .forms import ReviewForm,UpdateProfile
-from .. models import Review,Writer,User
+from .. models import Review,User
 from flask import jsonify
 from flask_login import login_required,UserMixin,current_user
-from .. import db,photos
-import markdown2
+from app import db
+# import markdown2
 
 @main.route('/')
 def index():
@@ -19,12 +19,12 @@ def index():
     title = "Home of stories"
     return render_template('index.html',title = title, quote = quote, quote_author = quote_author )
 
-@main.route('/writer/<int:writer_id>')
-def writer(writer_id):
+@main.route('/user/<int:user_id>')
+def user(user_id):
     '''
-    view function that returns the writers details page and its data
+    view function that returns the users details page and its data
     '''
-    return render_template('writer.html', id = writer_id)   
+    return render_template('user.html', id = user_id)   
 
 @main.route('/article/review/new/<int:id>', methods = ['GET','POST'])
 @login_required
