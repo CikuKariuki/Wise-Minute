@@ -28,7 +28,7 @@ class User(UserMixin,db.Model):
     bio = db.Column(db.String(255))
     profile_pic_path = db.Column(db.String()) 
     pass_secure = db.Column(db.String(255))
-    articles = db.relationship('Articles',backref = 'users',lazy = 'dynamic') 
+    articles = db.relationship('Articles',backref = 'author',lazy = 'dynamic') 
 
     @property
     def password(self):
@@ -56,7 +56,7 @@ class Articles(db.Model):
     content = db.Column(db.String(2550))
     date_posted = db.Column(db.DateTime, default = datetime.utcnow)
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
-    reviews = db.relationship('Reviews', backref = 'articles', lazy = True) 
+    reviews = db.relationship('Reviews', backref = 'author', lazy = True) 
 
     def save_article(self):
         db.session.add(self)
