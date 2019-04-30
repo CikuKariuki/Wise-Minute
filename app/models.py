@@ -1,8 +1,7 @@
-from flask_sqlalchemy import SQLAlchemy
 from werkzeug.security import generate_password_hash,check_password_hash
 from . import login_manager
 from datetime import datetime
-from flask_login import LoginManager,UserMixin
+from flask_login import UserMixin
 from app import db
 
 
@@ -25,12 +24,11 @@ class User(UserMixin,db.Model):
     id = db.Column(db.Integer,primary_key = True)
     username = db.Column(db.String(255),index = True)
     email = db.Column(db.String(255),unique = True, index = True)
-    occupation_id = db.Column(db.Integer,db.ForeignKey('occupation.id'))
+    
     bio = db.Column(db.String(255))
-    profile_pic_path = db.Column(db.String())
-    articles = db.Column(db.String(1000))
+    profile_pic_path = db.Column(db.String()) 
     pass_secure = db.Column(db.String(255))
-    reviews = db.relationship('Review',backref = 'user',lazy = "dynamic")
+    articles = db.relationship('Articles',backref = 'author',lazy = True) 
 
     @property
     def password(self):
@@ -43,38 +41,51 @@ class User(UserMixin,db.Model):
     def verify_password(self,password):
         return check_password_hash(self.pass_secure,password)
 
+    def save_user(self):
+        db.session.add(self)
+        db.session.commit()
 
     def __repr__(self):
         return f'User{self.username}'
 
-class Occupation(db.Model):
-    __tablename__='occupation'
+class Articles(db.Model):
+    __tablename__='articles'
+
     id = db.Column(db.Integer,primary_key=True)
-    name = db.Column(db.String(255))
-    user = db.relationship('User',backref = 'occupation',lazy="dynamic")
+    title = db.Column(db.String(255))
+    content = db.Column(db.String(2550))
+    date_posted = db.Column(db.DateTime, default = datetime.utcnow)
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
+    reviews = db.relationship('Reviews', backref = 'author', lazy = True) 
+
+    def save_article(self):
+        db.session.add(self)
+        db.session.commit()
     
+
     def __repr__(self):
-        return f'Occupation{self.name}'
+        return f'Articles{self.name}'
 
 
-class Review(db.Model):
+class Reviews(db.Model):
     __tablename__ = 'reviews'
 
     id = db.Column(db.Integer,primary_key = True)
-    movie_id = db.Column(db.Integer)
-    movie_title = db.Column(db.String)
-    image_path = db.Column(db.String)
-    movie_review = db.Column(db.String)
-    posted = db.Column(db.DateTime,default=datetime.utcnow)
+    review = db.Column(db.String(255))
     user_id = db.Column(db.Integer,db.ForeignKey("users.id"))
+    article_id = db.Column(db.Integer,  db.ForeignKey("articles.id"))
 
     def save_review(self):
         db.session.add(self)
         db.session.commit()
 
+    def __repr__(self):
+        return f'Review{self.review}'
+
+
     @classmethod
     def get_reviews(cls,id):
-        reviews = Review.query.filter_by(movie_id=id).all()
+        reviews = Review.query.filter_by(articles_id=id).all()
         return reviews
         
     @classmethod

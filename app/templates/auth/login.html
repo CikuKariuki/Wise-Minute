@@ -2,6 +2,23 @@
 {% import 'bootstrap/wtf.html' as wtf%}
 
 {% block content %}
+<!DOCTYPE html>
+<html>
+  <head>
+      <meta charset="utf-8">
+      {% if title %}
+      <title> {{ title }}</title>
+      {% else %}
+      <title> Home for stories </title>
+     
+      {% endif %}
+    </head>
+    <style>
+      body{
+        background-image: url('https://images.pexels.com/photos/935871/pexels-photo-935871.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=1000')
+      }
+      </style>
+      <body>
 <div class="container"> 
     <div class="row">
       <div class= "col-md-2"> </div>
@@ -20,5 +37,6 @@
      <div clas="col-md-2"> </div>
     </div>
 </div>
-
+</body>
 {% endblock%}
+</html>

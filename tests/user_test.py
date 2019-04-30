@@ -1,5 +1,6 @@
 import unittest
-from app.models import User
+from app.models import User, Articles
+from app import db
 
 class UserModelTest(unittest.TestCase):
 

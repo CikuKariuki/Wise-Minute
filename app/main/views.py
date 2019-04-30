@@ -1,11 +1,12 @@
 from flask import render_template,request,redirect,url_for,abort
 from . import main
 from ..requests import get_quote
-from .forms import ReviewForm,UpdateProfile
-from .. models import Review,User
+from .forms import ReviewForm,UpdateProfile,ArticleForm
+from .. models import Reviews,User,Articles
 from flask import jsonify
 from flask_login import login_required,UserMixin,current_user
 from app import db
+
 # import markdown2
 
 @main.route('/')
@@ -13,18 +14,44 @@ def index():
     '''
     view root page function that returns the index page and its data
     '''
-    sambu = get_quote()
-    quote = sambu["quote"]
-    quote_author = sambu["author"]
+    show_quote = get_quote()
+    quote = show_quote["quote"]
+    quote_author = show_quote["author"]
+    articles = Articles.query.all()
+
     title = "Home of stories"
-    return render_template('index.html',title = title, quote = quote, quote_author = quote_author )
+    return render_template('index.html',title = title, quote = quote, quote_author = quote_author,articles = articles , author = current_user)
 
 @main.route('/user/<int:user_id>')
 def user(user_id):
     '''
     view function that returns the users details page and its data
     '''
-    return render_template('user.html', id = user_id)   
+    return render_template('articles.html', id = user_id)   
+
+@main.route("/post",methods=['GET','POST'])
+@login_required
+def post():
+    form = ArticleForm()
+    if form.validate_on_submit():
+        title = form.title.data
+        content = form.content.data
+
+        new_post = Articles()
+        new_post.title = title
+        new_post.content= content
+
+        new_post.save_article()
+
+        new_article = Articles(title=title,content = content)
+
+        # new_article.save_article()
+        return redirect(url_for('main.index'))
+
+    title="Post your article"
+    return render_template('post.html',title=title,article_form=form)
+
+
 
 @main.route('/article/review/new/<int:id>', methods = ['GET','POST'])
 @login_required
@@ -90,5 +117,5 @@ def single_review(id):
     review=Review.query.get(id)
     if review is None:
         abort(404)
-    format_review = markdown2.markdown(review.movie_review,extras=["code-friendly", "fenced-code-blocks"])
-    return render_template('review.html',review = review,format_review=format_review)
+    # format_review = markdown2.markdown(review.movie_review,extras=["code-friendly", "fenced-code-blocks"])
+    return render_template('review.html',review = review)

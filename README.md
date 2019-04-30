@@ -5,7 +5,7 @@
 Wanjiku Kariuki
 
 ## Description
-It is an application which allows users to read and preview listed news articles from various sources.
+It is a blogging website where you can create and share your opinions and other users can read and comment on them.
 
 ## Technologies Used
 
