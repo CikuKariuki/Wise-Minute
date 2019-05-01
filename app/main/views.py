@@ -44,19 +44,20 @@ def post():
         new_post.save_article()
 
         new_article = Articles(title=title,content = content)
+        reviews = Reviews.query.all()
 
-        # new_article.save_article()
         return redirect(url_for('main.index'))
 
     title="Post your article"
     return render_template('post.html',title=title,article_form=form)
 
-@main.route("/article/review/<int:id>",methods=['GET','POST'])
+@main.route("/review/<int:id>",methods=['GET','POST'])
 @login_required
 def review(id):
     form = ReviewForm()
+    # article = Article.query.get_or_404(id)
     if form.validate_on_submit():
-        review = form.content.data
+        review = form.review.data
 
         new_review = Reviews()
         new_review.review= review
@@ -65,8 +66,7 @@ def review(id):
 
         new_review = Reviews(review = review)
 
-        # new_article.save_article()
-        return redirect(url_for('main.index', id= article.id))
+        return redirect(url_for('main.index',id = article.id))
 
     title="Post your review"
     return render_template('new_review.html',review_form=form)
@@ -132,7 +132,7 @@ def update_pic(uname):
 
 @main.route('/review/<int:id>')
 def single_review(id):
-    review=Review.query.get(id)
+    review=Reviews.query.get(id)
     if review is None:
         abort(404)
     # format_review = markdown2.markdown(review.movie_review,extras=["code-friendly", "fenced-code-blocks"])

@@ -1,7 +1,6 @@
-{% extends 'base.html' %}
-{% import "bootstrap/wtf.html" as wtf %}
+{% extends 'base.html'%}
 
-{% block content %}
+{% block content%}
 <!DOCTYPE html>
 <html>
   <head>
@@ -21,7 +20,18 @@
       </style>
       <body>
           
-{{ wtf.quick_form(review_form) }}
+<div class="container-fluid">
+
+  <div class="row">
+    <div class="col-sm-4">
+      <img src="{{review.image_path}}" class="img-responsive">
+    </div>
+
+    <div class="col-sm-8">
+      {{format_review|safe}}
+    </div>
+  </div>
+</div>
 </body>
 </html>
-    {% endblock %}
+{%endblock%}

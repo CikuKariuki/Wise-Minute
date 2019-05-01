@@ -83,12 +83,13 @@
           </footer>
         </blockquote>
         <div class="text-center">
-        <a href="{{url_for('main.review')}}" class="btn btn-primary">Comment</a>
+        <a href="/review/{{article.id}}" class="btn btn-primary">Comment</a>
       </div>
       </div>
     </div>
   </div>
 {% endfor %}
+
 </body>
 {% endblock %}
 </html>
