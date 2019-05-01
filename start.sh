@@ -1,4 +1,4 @@
-export SECRET_KEY=hfjgjkk;oiuyyrsk.k
+export SECRET_KEY=hfjgjkkoiuyyrsk
 
 
 python3.6 manage.py server
