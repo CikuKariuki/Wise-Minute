@@ -15,8 +15,8 @@ def register():
         db.session.commit()
 
         mail_message("Welcome to Blog Spot","email/welcome_user",user.email,user=user)
-        return redirect(url_for('auth.login'))
         title = "New Account"
+        return redirect(url_for('auth.login'))
     return render_template('auth/register.html',registration_form = form)
 
 @auth.route('/login',methods=['GET','POST'])

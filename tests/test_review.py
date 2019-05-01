@@ -14,7 +14,6 @@ class ReviewTest(unittest.TestCase):
 
         def test_check_instance_variables(self):
                 self.assertEquals(self.new_review.article_id,12)
-                self.assertEquals(self.new_review.article_title,'Review for articles')
                 self.assertEquals(self.new_review.article_review,'This is the best story I have ever read')
                 self.assertEquals(self.new_review.user,self.user_Wanjiku)
 

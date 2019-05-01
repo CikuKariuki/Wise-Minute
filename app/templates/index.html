@@ -51,7 +51,12 @@
        .panel{
          opacity: 0.7;
        }
-
+       #content{
+         font-size:25px
+       }
+       #articletitle{
+         font-size:30px
+       }
      </style>
      <body>
        <div class="well">
@@ -67,8 +72,8 @@
 <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4">
     <div class="panel">
     <div class="panel-body">
-        <h2>{{ article.title }}</h2>
-        <p>{{ article.content }}</p>
+        <h2 id="articletitle">{{ article.title }}</h2>
+        <p id="content">{{ article.content }}</p>
         
         <blockquote >
           <footer>Posted by:
@@ -78,7 +83,7 @@
           </footer>
         </blockquote>
         <div class="text-center">
-        <a href="/article_review/{{article.id}}" class="btn btn-primary">Comment</a>
+        <a href="{{url_for('main.review')}}" class="btn btn-primary">Comment</a>
       </div>
       </div>
     </div>

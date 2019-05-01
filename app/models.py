@@ -103,6 +103,3 @@ class Reviews(db.Model):
                 response.append(review)
 
         return response
-
-
-

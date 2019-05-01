@@ -51,27 +51,45 @@ def post():
     title="Post your article"
     return render_template('post.html',title=title,article_form=form)
 
-
-
-@main.route('/article/review/new/<int:id>', methods = ['GET','POST'])
+@main.route("/article/review/<int:id>",methods=['GET','POST'])
 @login_required
-def new_review(id):
-    article = Article.query.get_or_404(id)
-    comment = Review.query.all()
+def review(id):
     form = ReviewForm()
-    
     if form.validate_on_submit():
-        title = form.title.data
-        review = form.review.data
-       # Updated review instance
-        new_review = Review(article_id=article.id,article_title=title,image_path=article.poster,article_review=review,user=current_user)
+        review = form.content.data
 
-        # save review method
+        new_review = Reviews()
+        new_review.review= review
+
         new_review.save_review()
-        return redirect(url_for('.article',id = article.id ))
 
-    title = f'{article.title} review'
-    return render_template('new_review.html',title = title, review_form=form, article=article)
+        new_review = Reviews(review = review)
+
+        # new_article.save_article()
+        return redirect(url_for('main.index', id= article.id))
+
+    title="Post your review"
+    return render_template('new_review.html',review_form=form)
+
+
+# @main.route('/article/review/new/<int:id>', methods = ['GET','POST'])
+# @login_required
+# def new_review(id):
+#     form = ReviewForm()
+#     # article = Article.query.get_or_404(id)
+#     # comment = Review.query.all()
+    
+#     if form.validate_on_submit():
+#         review = form.review.data
+#        # Updated review instance
+#         new_review = Review(review=review,user=current_user)
+
+#         # save review method
+#         new_review.save_review()
+#         return redirect(url_for('.article',id = article.id ))
+
+#     title = f'{article.title} review'
+#     return render_template('new_review.html',review_form=form, article=article)
 
 @main.route('/user/<uname>')
 def profile(uname):

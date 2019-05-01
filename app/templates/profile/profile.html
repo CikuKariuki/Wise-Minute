@@ -51,11 +51,11 @@
     <input type="file"  name="photo" class="form-control" required>
     <input type="submit">
   </form>
-    <!-- <a href="{{url_for('main.update_profile',uname=user.username)}}">Edit profile</a> -->
+    <a href="{{url_for('main.update_profile',uname=user.username)}}">Edit profile</a>
 {% endif %}
     </div>
     {% for article  in articles %}
-    <!-- <div class="row"> -->
+    <div class="row">
     <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4">
          <div class="panel">
          <div class="panel-body">
@@ -70,7 +70,7 @@
                </footer>
              </blockquote>
              <div class="text-center">
-             <a href="/article_review/{{article.id}}" class="btn btn-primary">Comment</a>
+             <a href="/new_review/{{article.id}}" class="btn btn-primary">Comment</a>
            </div>
            </div>
          </div>
