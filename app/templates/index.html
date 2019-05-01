@@ -80,7 +80,12 @@
     </div>
   </div>
 {% endfor %}
-
+{% for review in reviews  %}
+<div class="col-xs-12 col-sm-4 col-md-4 col-lg-4">
+    <div class="panel">
+    <div class="panel-body">
+        <p id="content">{{ review.review }}</p>
+{% endfor %}
 </body>
 {% endblock %}
 </html>

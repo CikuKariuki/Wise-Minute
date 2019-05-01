@@ -1,4 +1,4 @@
-from flask import render_template,request,redirect,url_for,abort
+from flask import render_template,request,redirect,url_for,abort,flash
 from . import main
 from .forms import ReviewForm,UpdateProfile,PitchForm
 from .. models import Reviews,User,Pitches
@@ -24,6 +24,19 @@ def user(user_id):
     view function that returns the users details page and its data
     '''
     return render_template('pitches.html', id = user_id)   
+@main.route('/pitch/<int:id>')
+
+@login_required
+def pitch(id):
+    pitch=Pitch.query.get_or_404(id)
+    comment= Review.query.all()
+    new_review = Reviews()
+    new_review.review= review
+
+    new_review.save_review()
+    return redirect(url_for('main.index'))
+
+    return render_template('review.html',id=pitch_id)
 
 @main.route("/post",methods=['GET','POST'])
 @login_required
@@ -51,8 +64,9 @@ def post():
 @login_required
 def review(id):
     form = ReviewForm()
-    # pitch = Pitch.query.get_or_404(id)
+    review = Reviews.query.all()
     if form.validate_on_submit():
+        flash('Your comment has been submitted.','success')
         review = form.review.data
 
         new_review = Reviews()
@@ -62,30 +76,12 @@ def review(id):
 
         new_review = Reviews(review = review)
 
-        return redirect(url_for('main.index',id = pitch.id))
+        return redirect(url_for('main.index'))
 
     title="Post your review"
     return render_template('new_review.html',review_form=form)
 
 
-# @main.route('/pitch/review/new/<int:id>', methods = ['GET','POST'])
-# @login_required
-# def new_review(id):
-#     form = ReviewForm()
-#     # pitch = Pitch.query.get_or_404(id)
-#     # comment = Review.query.all()
-    
-#     if form.validate_on_submit():
-#         review = form.review.data
-#        # Updated review instance
-#         new_review = Review(review=review,user=current_user)
-
-#         # save review method
-#         new_review.save_review()
-#         return redirect(url_for('.pitch',id = pitch.id ))
-
-#     title = f'{pitch.title} review'
-#     return render_template('new_review.html',review_form=form, pitch=pitch)
 
 @main.route('/user/<uname>')
 def profile(uname):
@@ -133,3 +129,12 @@ def single_review(id):
         abort(404)
     # format_review = markdown2.markdown(review.movie_review,extras=["code-friendly", "fenced-code-blocks"])
     return render_template('review.html',review = review)
+
+@main.route('/post/<int:id>/update')
+@login_required
+def update_Post(id):
+    post = Pitch.query.get_or_404(id)
+    if post.author != current_user:
+        abort(403)
+    form = PitchForm()
+    return render_template('post.html',title='Update pitch',form='form')
