@@ -14,8 +14,9 @@
     </head>
     <style>
       body{
-        background-image :url('https://images.pexels.com/photos/935871/pexels-photo-935871.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=1000');
-        font-family: 'Cormorant Garamond', serif;
+        background-image :url('https://images.pexels.com/photos/2043569/pexels-photo-2043569.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=1400');
+        font-family: 'Abril Fatface', cursive;
+        color: aliceblue;
         font-weight: 600;
         font-size: 25px;
        }
@@ -54,23 +55,23 @@
     <a href="{{url_for('main.update_profile',uname=user.username)}}">Edit profile</a>
 {% endif %}
     </div>
-    {% for article  in articles %}
+    {% for pitch  in pitches %}
     <div class="row">
     <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4">
          <div class="panel">
          <div class="panel-body">
-             <h2>{{ article.title }}</h2>
-             <p>{{ article.content}}</p>
+             <h2>{{ pitch.title }}</h2>
+             <p>{{ pitch.content}}</p>
               
              <blockquote >
                <footer>Posted by:
-                 <cite > {{ article.user.username}}</cite>
+                 <cite > {{ pitch.user.username}}</cite>
                  on
-                 <cite > {{ article.posted.strftime('%Y-%m-%d')}}</cite>
+                 <cite > {{ pitch.posted.strftime('%Y-%m-%d')}}</cite>
                </footer>
              </blockquote>
              <div class="text-center">
-             <a href="/new_review/{{article.id}}" class="btn btn-primary">Comment</a>
+             <a href="/new_review/{{pitch.id}}" class="btn btn-primary">Comment</a>
            </div>
            </div>
          </div>

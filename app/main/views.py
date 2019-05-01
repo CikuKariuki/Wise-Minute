@@ -1,8 +1,7 @@
 from flask import render_template,request,redirect,url_for,abort
 from . import main
-from ..requests import get_quote
-from .forms import ReviewForm,UpdateProfile,ArticleForm
-from .. models import Reviews,User,Articles
+from .forms import ReviewForm,UpdateProfile,PitchForm
+from .. models import Reviews,User,Pitches
 from flask import jsonify
 from flask_login import login_required,UserMixin,current_user
 from app import db
@@ -14,48 +13,45 @@ def index():
     '''
     view root page function that returns the index page and its data
     '''
-    show_quote = get_quote()
-    quote = show_quote["quote"]
-    quote_author = show_quote["author"]
-    articles = Articles.query.all()
+    pitches = Pitches.query.all()
 
     title = "Home of stories"
-    return render_template('index.html',title = title, quote = quote, quote_author = quote_author,articles = articles , author = current_user)
+    return render_template('index.html',title = title,pitches = pitches , author = current_user)
 
 @main.route('/user/<int:user_id>')
 def user(user_id):
     '''
     view function that returns the users details page and its data
     '''
-    return render_template('articles.html', id = user_id)   
+    return render_template('pitches.html', id = user_id)   
 
 @main.route("/post",methods=['GET','POST'])
 @login_required
 def post():
-    form = ArticleForm()
+    form = PitchForm()
     if form.validate_on_submit():
         title = form.title.data
         content = form.content.data
 
-        new_post = Articles()
+        new_post = Pitches()
         new_post.title = title
         new_post.content= content
 
-        new_post.save_article()
+        new_post.save_pitch()
 
-        new_article = Articles(title=title,content = content)
+        new_pitch = Pitches(title=title,content = content)
         reviews = Reviews.query.all()
 
         return redirect(url_for('main.index'))
 
-    title="Post your article"
-    return render_template('post.html',title=title,article_form=form)
+    title="Post your pitch"
+    return render_template('post.html',title=title,pitch_form=form)
 
 @main.route("/review/<int:id>",methods=['GET','POST'])
 @login_required
 def review(id):
     form = ReviewForm()
-    # article = Article.query.get_or_404(id)
+    # pitch = Pitch.query.get_or_404(id)
     if form.validate_on_submit():
         review = form.review.data
 
@@ -66,17 +62,17 @@ def review(id):
 
         new_review = Reviews(review = review)
 
-        return redirect(url_for('main.index',id = article.id))
+        return redirect(url_for('main.index',id = pitch.id))
 
     title="Post your review"
     return render_template('new_review.html',review_form=form)
 
 
-# @main.route('/article/review/new/<int:id>', methods = ['GET','POST'])
+# @main.route('/pitch/review/new/<int:id>', methods = ['GET','POST'])
 # @login_required
 # def new_review(id):
 #     form = ReviewForm()
-#     # article = Article.query.get_or_404(id)
+#     # pitch = Pitch.query.get_or_404(id)
 #     # comment = Review.query.all()
     
 #     if form.validate_on_submit():
@@ -86,10 +82,10 @@ def review(id):
 
 #         # save review method
 #         new_review.save_review()
-#         return redirect(url_for('.article',id = article.id ))
+#         return redirect(url_for('.pitch',id = pitch.id ))
 
-#     title = f'{article.title} review'
-#     return render_template('new_review.html',review_form=form, article=article)
+#     title = f'{pitch.title} review'
+#     return render_template('new_review.html',review_form=form, pitch=pitch)
 
 @main.route('/user/<uname>')
 def profile(uname):

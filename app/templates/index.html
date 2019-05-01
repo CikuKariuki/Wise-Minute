@@ -16,33 +16,27 @@
     </head>
     <style>
       body{
-        background-image :url('https://images.pexels.com/photos/917479/pexels-photo-917479.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=1000');
+        background-image :url('https://images.pexels.com/photos/159108/light-lamp-electricity-power-159108.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=1000');
         background-attachment:fixed;
         background-size: cover;
         background-position: 100%;
-        font-family: 'Cormorant Garamond', serif;
+        font-family: 'Abril Fatface', cursive;
         font-weight: 600;
        }
-       #quote{
-         font-size: 35px;
-         font-family: 'Tangerine', cursive;
-
-       }
+       
        .jumbotron{
          opacity: 0.6;
        }
-       #quoteauthor{
-         float: left;
-         font-style: italic;
-       }
+       
        .well{
          opacity:0.7;
        }
        button{
-         background-color: #b3735c;
-         height: 50px;
-         width: 100px;
-         border-radius: 50%;
+        background-color: #000000;
+        height: 50px;
+        width: 150px;
+        border-radius: 20%;
+        color: white;
        }
        a{
          color: black;
@@ -54,36 +48,33 @@
        #content{
          font-size:25px
        }
-       #articletitle{
+       #pitchtitle{
          font-size:30px
        }
      </style>
      <body>
-       <div class="well">
-    <p id="quote"><strong>{{quote}}</strong></p> 
-    <p class="font"id="quoteauthor">{{quote_author}}</p>
-  </div>
+       
 <div class="text-center" id="button">
-<button><a href="{{url_for('main.post')}}" >Submit Article</a></button>
+<a href="{{url_for('main.post')}}" ><button>CREATE PITCH</button></a>
 </div>
 <br>
 
-{% for article in articles  %}
+{% for pitch in pitches  %}
 <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4">
     <div class="panel">
     <div class="panel-body">
-        <h2 id="articletitle">{{ article.title }}</h2>
-        <p id="content">{{ article.content }}</p>
+        <h2 id="pitchtitle">{{ pitch.title }}</h2>
+        <p id="content">{{ pitch.content }}</p>
         
         <blockquote >
           <footer>Posted by:
-            <cite > {{ article.author.username}}</cite>
+            <cite > {{ pitch.author.username}}</cite>
             on
-            <cite > {{ article.date_posted.strftime('%Y-%m-%d')}}</cite>
+            <cite > {{ pitch.date_posted.strftime('%Y-%m-%d')}}</cite>
           </footer>
         </blockquote>
         <div class="text-center">
-        <a href="/review/{{article.id}}" class="btn btn-primary">Comment</a>
+        <a href="/review/{{pitch.id}}" class="btn btn-primary">Comment</a>
       </div>
       </div>
     </div>

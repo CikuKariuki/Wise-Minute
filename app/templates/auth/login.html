@@ -15,7 +15,13 @@
     </head>
     <style>
       body{
-          background-image: url('https://images.pexels.com/photos/935871/pexels-photo-935871.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=1000')
+          background-image: url('https://images.pexels.com/photos/2043569/pexels-photo-2043569.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=1400');
+          color: aliceblue;
+          font-family: 'Abril Fatface', cursive;
+          font-size: 20px;
+      }
+      #signup{
+        color: brown;
       }
       </style>
       <body>
@@ -32,7 +38,7 @@
       {% endfor %}
       <!-- Login form -->
       {{wtf.quick_form(login_form)}}
-      <p> Don't have an account? <a href="{{url_for('auth.register')}}">Sign up here</a></p>
+      <p> Don't have an account? <a href="{{url_for('auth.register')}}" id="signup">Sign up here</a></p>
      </div>
      <div clas="col-md-2"> </div>
     </div>
