@@ -24,6 +24,9 @@ Python 3.6, Flask
 Visual studio, Atom.
 (Any text editor conversant with python 3.6)
 
+## Known Bugs
+User can't post a comment yet
+
 ## Contact
 
 sheekokariuki@gmail.com
